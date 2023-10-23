@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="icons/all.min.css">
+    <title>https://StackMaestro_dictionary.org.ng</title>
+</head>
+<body>
+
+    <section class="wrapper" >
+
+        <section class="whole">
+            <nav>
+                <ul>
+                    <li class="name"> StackMaestro <span style="font-size: 15px;"> DICTIONARY</span> <span style="color: white;"><i class="fa-solid fa-book-open"></i></span></li>
+                    
+                </ul>
+
+                <ul>
+                    <li>Translation Accuracy <span><i class="fa-solid fa-check"></i></span></li>
+                    <li>Correct Part-speech <span><i class="fa-solid fa-check"></i></span></li>
+                    <li>Audio-play <span><i class="fa-solid fa-xmark"></i></span></li>
+                </ul>
+            </nav>
+            <hr style="max-width: 1300px;margin:auto">
+
+            <section class="user_section">
+
+                <div class="insert">
+                    <div>
+                    <h3 class="instruct">Please input Your Search Word Below:</h3>
+                	 </div>
+                     
+                     <div>
+                    <input type="text" id="user_input">
+                     </div>
+                    <div> <button onclick="display()"><i class="fa-solid fa-search"></i></button>
+                   </div>
+                </div>
+
+            </section >
+
+            <section class="word_audio">
+
+                <div class="mean">
+                    <p id="word"></p>
+                    <p id="phonetic"></p>
+
+                </div>
+                <!-- <div class="audio">
+                    <button onclick="playing()" id="aud"><i class="fa-solid fa-volume-xmark"></i></button>
+                    
+                </div> -->
+            <hr style="max-width: 1300px;margin:auto; margin-bottom:50px">
+
+
+            </section>
+
+            <section class="tabledata">
+                <table>
+                    <tr>
+                        <th>
+                            <p id="definition"></p>
+
+                            <p id="example"></p>
+                        </th>
+                       
+                    </tr>
+                    <tr>
+                        <th> 
+                            <p id="Transcript">  </p>
+                         </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p id="synonym"></p>
+
+                            <p id="antonym"></p>
+                        </td>
+                       
+                    </tr>
+                    <tr>
+                        <td>
+                            <p id="partspeech">
+                               
+                            </p>
+                        </td>
+                    </tr>
+
+                </table>
+            </section>
+
+        </section>
+
+
+
+
+    </section>
+
+
+
+    <script type="text/javascript">
+
+        function display(){
+            
+            let input_value=document.getElementById('user_input').value;
+           
+            fetch("https://api.dictionaryapi.dev/api/v2/entries/en/" +input_value)
+            .then(data=>data.json())
+            .then(response=>{
+            // let results= 
+             let word = response[0].word
+                let phonetic =response[0].phonetic
+                let meaning = response[0].meanings[0].definitions[0].definition
+                let example = response[0].meanings[0].definitions[0].example
+                
+
+                let partofspeech = response[0].meanings[0].partOfSpeech
+                let synonym=response[0].meanings[0].synonyms[0]
+                let antonym=response[0].meanings[0].antonyms[0]
+                let audio=  response[0].phonetics[0].audio
+                
+
+    console.log(response)
+    console.log(phonetic)
+    console.log(meaning)
+    console.log(synonym)
+    console.log(antonym)
+    console.log(typeof antonym)
+    console.log(partofspeech)
+    console.log(audio)
+
+    document.getElementById('word').innerHTML="//" +  word;
+    document.getElementById('phonetic').innerHTML=phonetic;
+    document.getElementById('Transcript').innerHTML= "Phonetics" + " "+phonetic;
+    document.getElementById('definition').innerHTML= " Definition:"+ " " +meaning;
+    document.getElementById('synonym').innerHTML= "Synonyms:" + " "+ synonym
+    document.getElementById('antonym').innerHTML= "Antonyms:" + antonym;
+    document.getElementById('example').innerHTML= "Example:" +" "+ example
+    document.getElementById('partspeech').innerHTML= "Part Of Speech: " + partofspeech ;
+    console.log(word)
+
+
+    if ( response== null ){
+        let word = " Definition Not Found"
+    document.getElementById('word').innerHTML="//" +  word;
+
+
+    }
+   
+
+    if (antonym== undefined){
+        let antonym= " Antonym: Not Found"
+        document.getElementById('antonym').innerHTML=antonym;
+    
+        
+    }
+    else {
+    document.getElementById('antonym').innerHTML= "Antonyms:" + antonym;
+
+    
+    }
+
+    if (synonym== undefined){
+        let synonym= " Synonym: Not Found"
+        document.getElementById('synonym').innerHTML=synonym;
+    
+        
+    }
+    else{
+    document.getElementById('synonym').innerHTML= "Synonym:" + synonym;
+
+    
+    }
+    if (example== undefined){
+        let example= " Example: Not Found"
+        document.getElementById('example').innerHTML=example;
+    
+        
+    }
+    else{
+    document.getElementById('example').innerHTML= "Example:" + example;
+
+    
+    }
+    if (phonetic== undefined){
+        let phonetic= " Phonetics: Not Found"
+        document.getElementById('phonetic').innerHTML=phonetic;
+    
+        
+    }
+    else{
+    document.getElementById('phonetic').innerHTML= " Part Of Speech:" + phonetic;
+
+    
+    }
+    if (phonetic== undefined){
+        let phonetic= " Phonetics: Not Found"
+        document.getElementById('Transcript').innerHTML=phonetic;
+    
+        
+    }
+    else{
+    document.getElementById('Transcript').innerHTML= " Part Of Speech:" + phonetic;
+
+    
+    }
+    if (partofspeech== undefined){
+        let partofspeech= " Part Of Speech: Not Found"
+        document.getElementById('partspeech').innerHTML=partofspeech;
+    
+        
+    }
+    else{
+    document.getElementById('partspeech').innerHTML= " Part Of Speech:" + partofspeech;
+
+    
+    }
+
+
+   
+})
+
+
+
+
+
+}
+
+
+
+    
+
+    </script>
+    
+</body>
+</html>
